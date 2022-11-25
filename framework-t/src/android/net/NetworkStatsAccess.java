@@ -127,9 +127,12 @@ public final class NetworkStatsAccess {
         final boolean isNetworkStack = context.checkPermission(
                 android.Manifest.permission.NETWORK_STACK, callingPid, callingUid)
                 == PERMISSION_GRANTED;
+        final boolean isMainlineNetworkStack = context.checkPermission(
+                NetworkStack.PERMISSION_MAINLINE_NETWORK_STACK, callingPid, callingUid)
+                == PERMISSION_GRANTED;
 
         if (hasCarrierPrivileges || isDeviceOwner
-                || appId == Process.SYSTEM_UID || isNetworkStack) {
+                || appId == Process.SYSTEM_UID || isNetworkStack || isMainlineNetworkStack) {
             // Carrier-privileged apps and device owners, and the system (including the
             // network stack) can access data usage for all apps on the device.
             return NetworkStatsAccess.Level.DEVICE;
